@@ -8,7 +8,7 @@
 #property version   "1.00"
 #property strict
 
-string EA_NAME = "KhaiNuiGrid";
+string EA_NAME = "KhaiNuiHFT";
 string Owner = "The Market Survivor";
 string OwnerLink = "https://www.facebook.com/TheMarketSurvivor";
 string eaInfo = EA_NAME + "\n" + Owner + "\n" + OwnerLink;
@@ -177,6 +177,16 @@ void OnTick()
            }
         }
      }
+
+// Display results on the screen
+   Comment(
+      "\n" +
+      "--------------------" +
+      "\n" +
+      eaInfo +
+      "\n" +
+      "--------------------"
+   );
   }
 
 //+------------------------------------------------------------------+
