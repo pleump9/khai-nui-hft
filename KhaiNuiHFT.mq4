@@ -29,6 +29,7 @@ input int     SellTrailing_Distance = 50;     // Trailing Stop Distance for Sell
 
 // Variables for Other Setting
 input string OtherSetting = "----- Other settings -----"; // Other settings
+input bool isFollowTrend = true; // True to follow the trend, false to trade against it
 input int     MovingAverageType    = MODE_EMA; // Moving Average Type (SMA, EMA, etc.)
 input int     MovingAveragePeriod  = 27;     // Period for Moving Average
 input int     MagicNumber          = 123456; // Magic Number for Orders
@@ -84,7 +85,17 @@ void OnTick()
 //--- Check Buy Condition and No Open Orders
    if(EnableBuy && NoOpenOrders())
      {
-      if(Ask < MovingAverageValue)  // Buy condition: Ask price is below Moving Average
+      bool buyCondition;
+      if(isFollowTrend)
+        {
+         buyCondition = Ask > MovingAverageValue;  // Follow trend: Buy when Ask > Moving Average
+        }
+      else
+        {
+         buyCondition = Ask < MovingAverageValue;  // Against trend: Buy when Ask < Moving Average
+        }
+
+      if(buyCondition)
         {
          //--- Place Buy Order
          double BuyPrice = Ask;
@@ -104,7 +115,17 @@ void OnTick()
 //--- Check Sell Condition and No Open Orders
    if(EnableSell && NoOpenOrders())
      {
-      if(Bid > MovingAverageValue)  // Sell condition: Bid price is above Moving Average
+      bool sellCondition;
+      if(isFollowTrend)
+        {
+         sellCondition = Bid < MovingAverageValue;  // Follow trend: Sell when Bid < Moving Average
+        }
+      else
+        {
+         sellCondition = Bid > MovingAverageValue;  // Against trend: Sell when Bid > Moving Average
+        }
+
+      if(sellCondition)
         {
          //--- Place Sell Order
          double SellPrice = Bid;
@@ -157,4 +178,5 @@ void OnTick()
         }
      }
   }
+
 //+------------------------------------------------------------------+
